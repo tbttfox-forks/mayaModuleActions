@@ -127,7 +127,9 @@ runs:
     - name: Unpack Devkit Mac
       if: ${{ runner.os == 'macOS' }}
       shell: bash
-      run: hdiutil attach "${{ steps.dk-output.outputs.dk-zip }}" -mountroot "${{ steps.dk-output.outputs.dk-extract }}" -readwrite
+      run: |
+        hdiutil attach "${{ steps.dk-output.outputs.dk-zip }}"
+        cp -r /Volumes/devkitBase ${{ steps.dk-output.outputs.dk-extract }}
 
     - name: Unpack Qt Headers Windows
       if: ${{ (runner.os == 'Windows') && inputs.extract-qt }}
