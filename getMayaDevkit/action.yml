@@ -40,12 +40,6 @@ runs:
   using: "composite"
 
   steps:
-    - name: Sorry Mac
-      if: ${{ (runner.os == 'macOS') && inputs.extract-qt }}
-      uses: actions/github-script@v7
-      with:
-        script: core.setFailed("Qt extraction on Mac is not supported because I don't want to deal with it. PR's welcome")
-
     - name: Get Variables - Windows
       if: ${{ runner.os == 'Windows' }}
       shell: bash
@@ -142,7 +136,7 @@ runs:
         if [ ! -e "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.zip" ]; then
           unzip "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include/qt*.zip" -d "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include"
         else 
-          unzip "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.zip"
+          unzip "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.zip" -d "${{ steps.dk-output.outputs.dk-extract }}/devkitBase"
         fi 
 
     - name: Unpack Qt Headers Linux
@@ -150,9 +144,9 @@ runs:
       shell: bash
       run: |
         if [ ! -e "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.tgz" ]; then
-          tar xvzf "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include/qt*.tar.gz" -C "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include"
+          tar xvzf ${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include/qt*.tar.gz -C ${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include
         else 
-          tar xvzf "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.tgz"
+          tar xvzf ${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.tgz -C ${{ steps.dk-output.outputs.dk-extract }}/devkitBase
         fi 
 
     - name: Unpack Qt Headers Mac
@@ -160,9 +154,9 @@ runs:
       shell: bash
       run: |
         if [ ! -e "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.tgz" ]; then
-          tar xvzf "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include/qt*.tar.gz" -C "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include"
+          tar xvzf ${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include/qt*.tar.gz -C ${{ steps.dk-output.outputs.dk-extract }}/devkitBase/include
         else 
-          tar xvzf "${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.tgz"
+          tar xvzf ${{ steps.dk-output.outputs.dk-extract }}/devkitBase/Qt.tgz -C ${{ steps.dk-output.outputs.dk-extract }}/devkitBase
         fi 
 
 
